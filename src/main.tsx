@@ -54,10 +54,10 @@ const config={
 
 // FOR-GERMS-IAM-SERVER
 // const config={ 
-//   signInRedirectURL: "http://192.168.20.213:8091",
-//   signOutRedirectURL: "http://192.168.20.213:8091",
-//   clientID: "5RsWGEdS7rEpbZagFAF9Ol4UhC8a",
-//   baseUrl: "https://api.asgardeo.io/t/germsslaf",
+//   signInRedirectURL: "https://germs-up-front-end.vercel.app",
+//   signOutRedirectURL: "https://germs-up-front-end.vercel.app",
+//   clientID: "gW07K0t7lKWMpadt3JlP5d5Bsfsa",
+//   baseUrl: "https://192.168.20.213:9443",
 //   scope: [
 //     "openid",
 //     "groups",
