@@ -7,7 +7,7 @@ const mtOperations = () => {
   const navigate = useNavigate();
   const { hasPermission } = useUserContext();
 
-  if (hasPermission("mt_operations-view_in_sidebar")) {
+  if (hasPermission("mt-operations/view_in_sidebar")) {
     return (
       <div>
         <MtOperations/>

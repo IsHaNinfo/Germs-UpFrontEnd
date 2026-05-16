@@ -197,7 +197,7 @@ const ServiceRules = () => {
     }
   }
 
-  if (hasPermission("Maintenance-View Service Rule Settings")) { 
+  if (hasPermission("maintenance/view_service_rule_settings")) { 
     return (
       <div className="p-6 pt-0">
 
@@ -298,14 +298,14 @@ const ServiceRules = () => {
                     </td>
                     <td className="p-2">{v.thresholdValue}</td>
                     <td className="flex justify-center gap-3 p-2"
-                      hidden={!hasPermission("maintenance/edit_service_rule") && !hasPermission("Maintenance-Delete Service Rule")}>
+                      hidden={!hasPermission("maintenance/edit_service_rule") && !hasPermission("maintenance/delete_service_rule")}>
                       <button hidden={!hasPermission("maintenance/edit_service_rule")}
                               title="Edit" className="text-blue-600" onClick={() => {
                           openServiceRuleEditModal(v);
                         }}>
                         <i className="fa-solid fa-pen"></i>
                       </button>
-                      <button hidden={!hasPermission("Maintenance-Delete Service Rule")}
+                      <button hidden={!hasPermission("maintenance/delete_service_rule")}
                               title="Delete" className="text-blue-600" onClick={() => {
                           openServiceRuleDeleteModal(v);
                         }}>

@@ -23,6 +23,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   disabled = false,
   hidden = false,
+  type = "button", // Default to "button" to avoid accidental form submissions
 }) => {
   // Size Classes
   const sizeClasses = {
@@ -40,6 +41,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      type={type}
       hidden={hidden}
       className={`inline-flex items-center justify-center gap-2 rounded-lg transition ${className} ${
         sizeClasses[size]

@@ -1,24 +1,31 @@
 import { useAuthContext } from "@asgardeo/auth-react";
 import { useEffect, useState } from "react";
-import { localStorageManagementService } from "../../services/localStorageManagementService";
+import { jwtDecode } from "jwt-decode";
 
-interface UserProfile {
-  svcNo: string;
-  rank: string;
-  name: string;
-  location: string;
-  formation: string;
-  roleName: string;
-}
+type CustomJwtPayload = {
+  SvcNo: string;
+  Rank: string;
+  given_name: string;
+  family_name: string;
+  userLocation: string;
+  Division: string;
+  roles: string[];
+};
 
 export default function UserInfoCard() {
-  const { state } = useAuthContext();
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const { state,getAccessToken } = useAuthContext();
+  const [user, setUser] = useState<CustomJwtPayload | null>(null);
+
+  const loadUser = async () => {
+    const token = await getAccessToken();
+    const decodedToken = jwtDecode<CustomJwtPayload>(token);
+
+    setUser(decodedToken);
+  };
 
   useEffect(() => {
     if (state.isAuthenticated) {
-      const userInfo = localStorageManagementService.getLocalStorageUserDetails();
-      setUser(userInfo);
+      loadUser();
     }
   }, [state.isAuthenticated]);
   
@@ -36,7 +43,7 @@ export default function UserInfoCard() {
                 Service Number
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {user ? user.svcNo : "Service Number"}
+                {user ? user.SvcNo : "Service Number"}
               </p>
             </div>
             <div>
@@ -44,7 +51,7 @@ export default function UserInfoCard() {
                 Rank
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {user ? user.rank : "Rank"}
+                {user ? user.Rank : "Rank"}
               </p>
             </div>
             <div>
@@ -52,7 +59,7 @@ export default function UserInfoCard() {
                 Name
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {user ? user.name : "Name"}
+                {user ? user.given_name+user.family_name : "Name"}
               </p>
             </div>
 
@@ -61,7 +68,7 @@ export default function UserInfoCard() {
                 Location
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {user ? user.location : "Location"}
+                {user ? user.userLocation : "Location"}
               </p>
             </div>
             <div>
@@ -69,7 +76,7 @@ export default function UserInfoCard() {
                 Formation
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {user ? user.formation : "Formation"}
+                {user ? user.Division : "Formation"}
               </p>
             </div>
             <div>
@@ -77,7 +84,7 @@ export default function UserInfoCard() {
                 User Role
               </p>
               <p className="text-sm font-medium text-gray-800 dark:text-white/90">
-                {user ? user.roleName : "User Role"}
+                {user ? user.roles : "User Role"}
               </p>
             </div>
           </div>

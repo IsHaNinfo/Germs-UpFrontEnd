@@ -39,6 +39,7 @@ import E658DashboardPage from "./pages/E658Dashboard/E658DashboardPage";
 import E658ShortRun from "./components/E658ShortRun/E658ShortRun";
 import E658LongRun from "./components/E658LongRun/E658LongRun";
 import E658RR from "./components/E658RR/E658RR";
+import RequestAuthority from "./components/E658LongRun/RequestAuthority";
 
 export default function App() {
   return (
@@ -48,7 +49,7 @@ export default function App() {
         <Routes>
           {/* Dashboard Layout */}
           <Route element={<AppLayout />}>
-            <Route path="/germs" element={<DashboardCards/>} />
+            <Route path="/germs" element={<DashboardCards />} />
 
             {/* Others Page */}
             {/* <Route path="/profile" element={<UserProfiles />} /> */}
@@ -61,10 +62,10 @@ export default function App() {
             <Route path="/germs/induction/vehicle-induction/add-vehicle-model" element={<AddVehicleModel />} />
             <Route path="/germs/induction/register-to-air-force" element={<VehicleRegistrationAirForce />} />
             <Route path="/germs/induction/vehicle-allocation" element={<AllocationPage />} />
-            
+
             {/* Maintenance */}
             <Route path="/germs/maintenance" element={<MaintenanceDashboard />} />
-            <Route path="/germs/maintenance/servicing" element={<ServicingPage/>} />
+            <Route path="/germs/maintenance/servicing" element={<ServicingPage />} />
             <Route path="/germs/maintenance/service-rules" element={<ServiceRules />} />
             <Route path="/germs/maintenance/repairs" element={<MaintenanceDashboard />} />
             <Route path="/germs/maintenance/accident-repairs" element={<MaintenanceDashboard />} />
@@ -78,6 +79,7 @@ export default function App() {
             <Route path="/germs/e-658" element={<E658DashboardPage />} />
             <Route path="/germs/e-658/short-run" element={<E658ShortRun />} />
             <Route path="/germs/e-658/long-run" element={<E658LongRun />} />
+            <Route path="/germs/e-658/long-run/request-authority" element={<RequestAuthority />} />
             <Route path="/germs/e-658/rr" element={<E658RR />} />
 
             {/* Reports */}
@@ -99,7 +101,7 @@ export default function App() {
             <Route path="/germs/page-maintenance" element={<PageMaintenance />} />
 
             {/* Forms */}
-            <Route path="/form-elements" element={<FormElements />} />  
+            <Route path="/form-elements" element={<FormElements />} />
             {/* Tables */}
             <Route path="/basic-tables" element={<BasicTables />} />
             {/* Ui Elements */}

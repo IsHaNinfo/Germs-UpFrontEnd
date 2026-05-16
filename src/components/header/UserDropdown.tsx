@@ -4,10 +4,21 @@ import { Dropdown } from "../ui/dropdown/Dropdown";
 import { useAuthContext } from "@asgardeo/auth-react";
 import Button from "../ui/button/Button"
 import { localStorageManagementService } from "../../services/localStorageManagementService";
+import { jwtDecode } from "jwt-decode";
+
+type CustomJwtPayload = {
+  SvcNo: string;
+  Rank: string;
+  given_name: string;
+  family_name: string;
+  userLocation: string;
+  Division: string;
+  roles: string[];
+};
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const { state,signIn,signOut } = useAuthContext();
+  const { state,getAccessToken,signIn,signOut } = useAuthContext();
   const [user, setUser] = useState<UserInfo | null>(null);
 
   interface UserInfo {
@@ -31,17 +42,18 @@ export default function UserDropdown() {
   };
  
   const loadUser = async () => {
-    const userInfo = localStorageManagementService.getLocalStorageUserDetails();
+    const token = await getAccessToken();
+    const decodedToken = jwtDecode<CustomJwtPayload>(token);
 
     setUser({
-      displayName: (userInfo.rank || "") + " " + (userInfo.name || ""),
-      username: userInfo.svcNo || ""
+      displayName: (decodedToken.Rank || "") + " " + (decodedToken.given_name+' '+decodedToken.family_name || ""),
+      username: decodedToken.SvcNo || ""
     });
   };
 
-    useEffect(() => {
-      loadUser();
-    }, []);
+  useEffect(() => {
+    loadUser();
+  }, []);
   
   return (
     <div className="relative">

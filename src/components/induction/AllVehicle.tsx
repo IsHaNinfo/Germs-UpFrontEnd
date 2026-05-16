@@ -29,6 +29,7 @@ const AllVehicle = () => {
   const filteredVehicles = vehicles.filter((v) => {
     const s = searchTerm.toLowerCase();
     return (
+      v.civilRegNo?.toLowerCase().includes(s) ||
       v.chassisNo?.toLowerCase().includes(s) ||
       v.vehicleModel?.modelName?.toLowerCase().includes(s) ||
       v.vehicleModel?.fuelType?.toLowerCase().includes(s) ||

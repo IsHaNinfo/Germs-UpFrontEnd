@@ -9,6 +9,7 @@ interface InputProps {
   value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  readOnly?: boolean;
   className?: string;
   min?: string;
   max?: string;
@@ -28,6 +29,7 @@ const Input: FC<InputProps> = ({
   value,
   onChange,
   onBlur,
+  readOnly = false,
   className = "",
   min,
   max,
@@ -66,6 +68,7 @@ const Input: FC<InputProps> = ({
         required={required}
         className={inputClasses}
         onBlur={onBlur}
+        readOnly={readOnly}
       />
 
       {hint && (

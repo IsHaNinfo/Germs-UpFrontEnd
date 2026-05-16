@@ -26,7 +26,7 @@ const AddServiceRuleModal: React.FC<Props> = ({ isOpen, onClose, onUserRoleCreat
   const [serviceTypeData, setServiceTypeData] = useState<any[]>([]);
   const [conditionTypeData, setConditionTypeData] = useState<any[]>([]);
   const [showThreshold, setShowThreshold] = useState(false);
-  
+
   useEffect(() => {
     if (vehicleDetails) {
       setFormData({
@@ -52,18 +52,18 @@ const AddServiceRuleModal: React.FC<Props> = ({ isOpen, onClose, onUserRoleCreat
 
   const handleServiceTypeChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     handleChange(e);
-    try{
-       const conditionTypeData = [
-        { conditionTypeId: 1, conditionTypeName: "Mileage"},
-        { conditionTypeId: 2, conditionTypeName: "TimePeriod"},
-        { conditionTypeId: 3, conditionTypeName: "Manual"},
-    ];
+    try {
+      const conditionTypeData = [
+        { conditionTypeId: 1, conditionTypeName: "Mileage" },
+        { conditionTypeId: 2, conditionTypeName: "TimePeriod" },
+        { conditionTypeId: 3, conditionTypeName: "Manual" },
+      ];
       setConditionTypeData(conditionTypeData);
     } catch (error) {
       Swal.fire({ icon: "error", title: "Error", text: "Failed to fetch condition type data." });
     }
   }
-  
+
   const handleConditionTypeChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedConditionTypeId = e.target.value;
 
@@ -73,7 +73,7 @@ const AddServiceRuleModal: React.FC<Props> = ({ isOpen, onClose, onUserRoleCreat
       value: "",
     }));
 
-    if(selectedConditionTypeId === "1" || selectedConditionTypeId === "2") {
+    if (selectedConditionTypeId === "1" || selectedConditionTypeId === "2") {
       setShowThreshold(true);
     } else {
       setShowThreshold(false);
@@ -85,7 +85,7 @@ const AddServiceRuleModal: React.FC<Props> = ({ isOpen, onClose, onUserRoleCreat
   // Des: Fetch Condition Type Data
 
   const fetchServiceTypeData = async () => {
-      try {
+    try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/ServicingStatus/GetServicingStatus`,
       );
@@ -109,7 +109,7 @@ const AddServiceRuleModal: React.FC<Props> = ({ isOpen, onClose, onUserRoleCreat
       priority: 1,
     };
 
-     try {
+    try {
       await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/ModelServiceRule`,
         data
@@ -117,7 +117,14 @@ const AddServiceRuleModal: React.FC<Props> = ({ isOpen, onClose, onUserRoleCreat
       Swal.fire({ icon: "success", title: "Success", text: "Service Rule added Successfully!" });
       onUserRoleCreated();
       onClose();
-      setFormData(initialState);
+      // setFormData(initialState);
+      setFormData((prev) => ({
+        ...prev,
+        conditionId: "",
+        serviceId: "",
+        value: "",
+      }));
+      
     } catch (error: any) {
       const message = error.response?.data?.detail || error.message || "Failed to update user.";
       Swal.fire({ icon: "error", title: "Error", text: message });
@@ -125,96 +132,96 @@ const AddServiceRuleModal: React.FC<Props> = ({ isOpen, onClose, onUserRoleCreat
   };
 
   if (!isOpen) return null;
-    return (
-      <div className="fixed inset-0 flex items-center justify-center z-100000">
-        
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-100000">
+
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       ></div>
-      
-        <div className="relative bg-white overflow-y-auto rounded-lg p-6 shadow-2xl animate-fadeIn w-[800px] ">
 
-          <div className="flex justify-between items-center mb-6 border-b pb-3">
-              <h2 className="text-2xl font-semibold">
-                  Add new Service Rule
-              </h2>
-              <button
-                  onClick={onClose}
-                  className="text-xl font-bold hover:opacity-70"> ✕
-              </button>
-          </div>
+      <div className="relative bg-white overflow-y-auto rounded-lg p-6 shadow-2xl animate-fadeIn w-[800px] ">
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label>Service Type (සේවා ර්වගය)<span className="text-red-500">*</span></Label>
-                <select
-                  name="serviceId"
-                  value={formData.serviceId}
-                  onChange={handleServiceTypeChange}
-                  required
-                  disabled={!serviceTypeData.length}
-                  className="w-full border border-gray-300 rounded-lg p-2"
-                >
-                  <option value="">Select Service Type</option>
-                  {serviceTypeData.map((serviceType) => (
-                    <option key={serviceType.serviceTypeId} value={serviceType.serviceTypeId}>
-                      {serviceType.serviceTypeName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <Label>Condition Type (තත්ත්ව ර්වගය)<span className="text-red-500">*</span></Label>
-                <select
-                  name="conditionId"
-                  value={formData.conditionId}
-                  onChange={handleConditionTypeChange}
-                  required
-                  disabled={!conditionTypeData.length}
-                  className="w-full border border-gray-300 rounded-lg p-2"
-                >
-                  <option value="">Select Condition Type</option>
-                  {conditionTypeData.map((conditionType) => (
-                    <option key={conditionType.conditionTypeId} value={conditionType.conditionTypeId}>
-                      {conditionType.conditionTypeName}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              
-              {showThreshold && (
-                <div>
-                  <Label>
-                    threshold value<span className="text-red-500">*</span>
-                  </Label>
-                  <Input
-                    name="value"
-                    value={formData.value}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              )}
-
-            </div>
-            <div className="flex justify-end gap-3 pt-4">
-              <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-
-              <Button type="submit">
-                Save
-              </Button>
-            </div>
-
-          </form>
+        <div className="flex justify-between items-center mb-6 border-b pb-3">
+          <h2 className="text-2xl font-semibold">
+            Add new Service Rule
+          </h2>
+          <button
+            onClick={onClose}
+            className="text-xl font-bold hover:opacity-70"> ✕
+          </button>
         </div>
 
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <Label>Service Type (සේවා ර්වගය)<span className="text-red-500">*</span></Label>
+              <select
+                name="serviceId"
+                value={formData.serviceId}
+                onChange={handleServiceTypeChange}
+                required
+                disabled={!serviceTypeData.length}
+                className="w-full border border-gray-300 rounded-lg p-2"
+              >
+                <option value="">Select Service Type</option>
+                {serviceTypeData.map((serviceType) => (
+                  <option key={serviceType.serviceTypeId} value={serviceType.serviceTypeId}>
+                    {serviceType.serviceTypeName}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <Label>Condition Type (තත්ත්ව ර්වගය)<span className="text-red-500">*</span></Label>
+              <select
+                name="conditionId"
+                value={formData.conditionId}
+                onChange={handleConditionTypeChange}
+                required
+                disabled={!conditionTypeData.length}
+                className="w-full border border-gray-300 rounded-lg p-2"
+              >
+                <option value="">Select Condition Type</option>
+                {conditionTypeData.map((conditionType) => (
+                  <option key={conditionType.conditionTypeId} value={conditionType.conditionTypeId}>
+                    {conditionType.conditionTypeName}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {showThreshold && (
+              <div>
+                <Label>
+                  threshold value<span className="text-red-500">*</span>
+                </Label>
+                <Input
+                  name="value"
+                  value={formData.value}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+            )}
+
+          </div>
+          <div className="flex justify-end gap-3 pt-4">
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+
+            <Button type="submit">
+              Save
+            </Button>
+          </div>
+
+        </form>
       </div>
-    );
+
+    </div>
+  );
 };
 
 export default AddServiceRuleModal;

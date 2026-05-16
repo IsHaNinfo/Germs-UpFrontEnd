@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { useAuthContext } from "@asgardeo/auth-react";  
-import { useEffect } from "react";
+import { useAuthContext } from "@asgardeo/auth-react";
+import { useEffect, useRef } from "react";
 import Logo from "../../../public/images/slaf.png";
 import { jwtDecode } from "jwt-decode";
 import { useUserContext } from "../../context/UserContext";
+import axios from "axios";
 
 type CustomJwtPayload = {
   sub: string;
@@ -22,10 +23,20 @@ export default function Apps() {
   const { setUser } = useUserContext();
   const navigate = useNavigate();
 
+  // Prevent signIn loop
+  const loginTriggered = useRef(false);
+
   useEffect(() => {
     const handleAuth = async () => {
-      if (!state.isAuthenticated && !state.isLoading) {
-        signIn();
+
+      // Only trigger once
+      if (
+        !state.isAuthenticated &&
+        !state.isLoading &&
+        !loginTriggered.current
+      ) {
+        loginTriggered.current = true;
+        await signIn();
         return;
       }
 
@@ -33,21 +44,27 @@ export default function Apps() {
         try {
           const token = await getAccessToken();
 
-          // ✅ decode with type
           const decodedToken = jwtDecode<CustomJwtPayload>(token);
 
-          console.log("toke :",decodedToken);
+          await axios.post(
+            `${import.meta.env.VITE_API_BASE_URL}/User/login-with-jwt`,
+            {
+              jwtToken: token,
+            }
+          );
 
           const permissions = decodedToken.scope
             ? decodedToken.scope.split(" ")
             : [];
-          console.log("Permissions:", permissions);
-          
+
           const userDetails = {
             id: decodedToken.sub,
             svcNo: decodedToken.SvcNo,
             rank: decodedToken.Rank,
-            name: decodedToken.given_name + decodedToken.family_name,
+            name:
+              decodedToken.given_name +
+              " " +
+              decodedToken.family_name,
             location: decodedToken.userLocation,
             formation: decodedToken.Division,
             roleId: decodedToken.roles,
@@ -57,6 +74,7 @@ export default function Apps() {
           };
 
           setUser(userDetails);
+
         } catch (error) {
           console.error("Token decode failed:", error);
         }
@@ -64,7 +82,7 @@ export default function Apps() {
     };
 
     handleAuth();
-  }, [state.isAuthenticated, state.isLoading, signIn, getAccessToken, setUser]);
+  }, [state.isAuthenticated, state.isLoading]);
 
   if (state.isLoading) {
     return (
@@ -101,9 +119,11 @@ export default function Apps() {
           <p className="text-sm opacity-80 mt-1">{subtitle}</p>
         </div>
 
-        <div className="bg-white/20 backdrop-blur-sm 
+        <div
+          className="bg-white/20 backdrop-blur-sm 
                         w-10 h-10 flex items-center justify-center 
-                        rounded-full">
+                        rounded-full"
+        >
           <span className="text-xl">›</span>
         </div>
       </div>

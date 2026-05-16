@@ -30,6 +30,7 @@ const VehicleRegistration = () => {
     isStanding: "standing",
     dmtId: 1,
     manufacturerId: "",
+    standingID: 15,
   };
 
   const [formData, setFormData] = useState(initialState);
@@ -189,6 +190,7 @@ const VehicleRegistration = () => {
       createdBy: "Admin",
       // createdIpAddress: '',
       manufacturerId: Number(formData.manufacturerId),
+      standingID: 15,
     };
 
     try {

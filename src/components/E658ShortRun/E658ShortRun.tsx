@@ -64,6 +64,10 @@ const E658ShortRun = () => {
 
         omtServiceNo: data?.omtServiceNo,
 
+        omtName: data?.omtName,
+
+        omtRank: data?.omtRank,
+
       }));
       setShortRunList(shortRunList);
 

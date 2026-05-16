@@ -62,21 +62,41 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
     const [isRunTypeModalOpen, addRunTypeModalOpen] = useState(false);
 
     type FormElement =
-  | HTMLInputElement
-  | HTMLSelectElement
-  | HTMLTextAreaElement;
+        | HTMLInputElement
+        | HTMLSelectElement
+        | HTMLTextAreaElement;
 
     const handleChange = (e: React.ChangeEvent<FormElement>) => {
-    const { name, value } = e.target;
+        const { name, value } = e.target;
 
-    setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-    }));
+        setFormData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     // Next Step
     const handleNext = () => {
+        if (step === 2) {
+            if (formData.destinationFrom === formData.destinationTo) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Invalid Locations",
+                    text: "Destination From and To cannot be the same.",
+                });
+                return;
+            }
+
+            if (new Date(formData.returnDate) < new Date(formData.departureDate)) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Invalid Dates",
+                    text: "Return date must be same or after Departure date.",
+                });
+                return;
+            }
+        }
+
         setStep((prev) => prev + 1);
     };
 
@@ -128,6 +148,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
             setFormData(initialState);
             onfetchDataList();
             onClose();
+            clearForm();
             Swal.fire({ icon: "success", title: "Success", text: "Create Short Run Successfully!" });
 
             onClose();
@@ -147,7 +168,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
         handleChange(e);
 
         const serviceNo = e.target.value;
-
+        if (serviceNo === "") return;
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_BASE_URL}/User/getbysvcno?SvcNo=${serviceNo}`
@@ -165,6 +186,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
                 title: "Error",
                 text: "Failed to fetch officer data."
             });
+            clearForm();
         }
     };
 
@@ -176,7 +198,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
         handleChange(e);
 
         const serviceNo = e.target.value;
-
+        if (serviceNo === "") return;
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_BASE_URL}/User/getbysvcno?SvcNo=${serviceNo}`
@@ -194,6 +216,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
                 title: "Error",
                 text: "Failed to fetch OMT data."
             });
+            clearForm();
         }
     };
 
@@ -204,6 +227,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
     const getUserDetails = async (e: any) => {
         handleChange(e);
         const serviceNo = e.target.value;
+        if (serviceNo === "") return;
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_BASE_URL}/User/getbysvcno?SvcNo=${serviceNo}`,
@@ -222,6 +246,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
             error.message ||
                 "Failed to fetch user data.";
             Swal.fire({ icon: "error", title: "Error", text: message });
+            clearForm();
         }
     };
 
@@ -277,6 +302,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
 
         const regNo = "ගුවන්-" + e.target.value;
 
+        if (regNo === "") return;
         try {
             const response = await axios.get(
                 `${import.meta.env.VITE_API_BASE_URL}/VehicleReg/${regNo}`
@@ -302,17 +328,23 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
 
     const isStepValid = () => {
         if (step === 1) {
-            return (
-                formData.serviceNo.trim() !== ""
-            );
+            return formData.serviceNo.trim() !== "";
         }
 
         if (step === 2) {
-            return (
+            const isLocationValid =
                 formData.destinationFrom !== "" &&
                 formData.destinationTo !== "" &&
+                formData.destinationFrom !== formData.destinationTo;
+
+            const isDateValid =
                 formData.departureDate !== "" &&
                 formData.returnDate !== "" &&
+                new Date(formData.returnDate) >= new Date(formData.departureDate);
+
+            return (
+                isLocationValid &&
+                isDateValid &&
                 formData.runType !== "" &&
                 formData.purpose.trim() !== ""
             );
@@ -335,7 +367,17 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
 
     // Created By: Flt Lt RJ Palihawadana
     // Created Date: 13.04.2026
-    // Des: Clear Form
+    // Des: Clear Form option
+
+
+    const clearForm = () => {
+        setFormData(initialState);
+        setStep(1);
+    };
+
+    // Created By: Flt Lt RJ Palihawadana
+    // Created Date: 13.04.2026
+    // Des: Clear Form option
 
     const handleClear = () => {
         Swal.fire({
@@ -491,6 +533,7 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
                                         <option
                                             key={location.locationId}
                                             value={location.locationName}
+
                                         >
                                             {location.locationName}
                                         </option>
@@ -539,6 +582,8 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
                                 <Label>Return Date (ආපසු පැමිණීමේ දිනය)<span className="text-red-500">*</span></Label>
                                 <DatePicker id="return-date-picker"
                                     placeholder="Select a date"
+                                    disabled={!formData.departureDate}
+                                    minDate={formData.departureDate || undefined}
                                     onChange={(_dates, currentDateString) => {
                                         setFormData({
                                             ...formData,
@@ -546,6 +591,9 @@ const E658ShortRunModal: React.FC<Props> = ({ isOpen, onClose, onfetchDataList }
                                         });
                                     }}
                                 />
+                                {!formData.departureDate && (
+                                    <p className="text-xs text-amber-600 mt-1">Please select departure date first.</p>
+                                )}
                             </div>
                             <div>
                                 <Label>Run Type (ධාවන වර්ගය)<span className="text-red-500">*</span></Label>

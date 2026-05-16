@@ -133,6 +133,7 @@ const VehicleRegisterAirForceModel : React.FC<Props> = ({ isOpen, onClose, onReg
                   <div>
                     <Input
                       name="slafRegNo"
+                      type="number"
                       value={formData.slafRegNo}
                       onChange={handleChange}
                       required

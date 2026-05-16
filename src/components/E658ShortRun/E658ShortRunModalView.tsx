@@ -195,6 +195,18 @@ const E658ShortRunModalView: React.FC<Props> = ({
                                         {selectedShortRunVehicle.omtServiceNo ||
                                             "Not Assigned"}
                                     </p>
+                                    <p>
+                                        <span className="font-medium">
+                                            OMT Name:
+                                        </span>{" "}
+                                        {selectedShortRunVehicle.omtName || "Not Assigned"}
+                                    </p>
+                                    <p>
+                                        <span className="font-medium">
+                                            OMT Rank:
+                                        </span>{" "}
+                                        {selectedShortRunVehicle.omtRank || "Not Assigned"}
+                                    </p>
                                 </>
                             )}
 

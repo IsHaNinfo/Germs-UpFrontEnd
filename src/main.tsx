@@ -11,7 +11,7 @@ import { AuthProvider } from "@asgardeo/auth-react";
 import { UserProvider } from "./context/UserContext.tsx";
 
 // FOR-DEVELOPING
-// const config={ 
+// const config={
 //   signInRedirectURL: "http://localhost:5173",
 //   signOutRedirectURL: "http://localhost:5173",
 //   clientID: "OuvFXAdkNq0qcvsFAQcHIR2DVFwa",
@@ -52,16 +52,105 @@ import { UserProvider } from "./context/UserContext.tsx";
 //   ]
 // };
 
-//FOR-GERMS-IAM-SERVER
-const config={ 
-  signInRedirectURL: "https://germs-up-front-end.vercel.app",
-  signOutRedirectURL: "https://germs-up-front-end.vercel.app",
-  clientID: "EQ42PfKvwO5xeOb1bvo0AykAHcUa",
-  baseUrl: "https://api.asgardeo.io/t/germsslaf56",
-  scope: [
-  "openid profile",
-  ]
-};
+//FOR-GERMS-IS-SERVER
+// const config={
+//   signInRedirectURL: "http://192.168.20.213:8091",
+//   signOutRedirectURL: "http://192.168.20.213:8091",
+//   clientID: "fTD5qozbkLILr0JJZF5Q9qmC_c4a",
+//   baseUrl: "https://192.168.20.213:9443",
+//   scope: [
+//     "openid",
+//     "profile",
+//     "roles",
+
+//     "dashboard/view_in_sidebar",
+    
+//     "induction/view_in_sidebar",
+//     "induction/view_vehicle_induction",
+//     "induction/view_register_to_airforce",
+//     "induction/view_allocation",
+
+//     "maintenance/view_in_sidebar",
+//     "maintenance/view_servicing",
+//     "maintenance/view_repairs",
+//     "maintenance/view_accident_repairs",
+//     "maintenance/view_utilization_of_mtms",
+//     "maintenance/add_new_service",
+//     "maintenance/edit_service_rule",
+//     "maintenance/add_new_service_rule",
+//     "maintenance/delete_service_rule",
+//     "maintenance/view_service_rule_settings",
+
+//     "mt-operations/view_in_sidebar",
+
+//     "e658/view_in_sidebar",
+//     "e658/view_long_run",
+//     "e658/view_short_run",
+//     "e658/view_rr",
+
+//     "reports/view_in_sidebar",
+
+//     "settings/view_in_sidebar",
+//   ]
+// };
+
+// const config={ 
+//   signInRedirectURL: "https://germs-up-front-end.vercel.app",
+//   signOutRedirectURL: "https://germs-up-front-end.vercel.app",
+//   clientID: "EQ42PfKvwO5xeOb1bvo0AykAHcUa",
+//   baseUrl: "https://api.asgardeo.io/t/germsslaf56",
+//   scope: [
+//   "openid profile",
+//   ]
+// };
+
+
+
+// FOR-GERMS-IS-SERVER-SASINDU
+// const config={ 
+//   signInRedirectURL: "http://localhost:5173",
+//   signOutRedirectURL: "http://localhost:5173",
+//   clientID: "cHnVT29EeqqoeK0WjQwZ07WUVuMa",
+//   baseUrl: "https://192.168.20.213:9443",
+//   scope: [
+//     "openid",
+//     "profile",
+//     "roles",
+
+//     "dashboard/view_in_sidebar",
+    
+//     "induction/view_in_sidebar",
+//     "induction/view_vehicle_induction",
+//     "induction/view_register_to_airforce",
+//     "induction/view_allocation",
+
+//     "maintenance/view_in_sidebar",
+//     "maintenance/view_servicing",
+//     "maintenance/view_repairs",
+//     "maintenance/view_accident_repairs",
+//     "maintenance/view_utilization_of_mtms",
+//     "maintenance/add_new_service",
+//     "maintenance/edit_service_rule",
+//     "maintenance/add_new_service_rule",
+//     "maintenance/delete_service_rule",
+//     "maintenance/view_service_rule_settings",
+
+//     "mt-operations/view_in_sidebar",
+
+//     "e658/view_in_sidebar",
+//     "e658/view_long_run",
+//     "e658/view_short_run",
+//     "e658/view_rr",
+
+//     "reports/view_in_sidebar",
+
+//     "settings/view_in_sidebar",
+//   ]
+// };
+
+
+
+
 
 // IS-LOCAL
 // const config={ 
@@ -94,13 +183,15 @@ const config={
 // };
 
 
-// const config={ 
-//   signInRedirectURL: "https://germs-front-end-hjdw.vercel.app/",
-//   signOutRedirectURL: "https://germs-front-end-hjdw.vercel.app/",
-//   clientID: "qCmCvwGEViDQr1UYv2RCTqwxbHga",
-//   baseUrl: "https://api.asgardeo.io/t/germsslaf",
-//   scope: [ "openid","profile" ]
-// };
+const config={ 
+  signInRedirectURL: "https://germs-up-front-end.vercel.app",
+  signOutRedirectURL: "https://germs-up-front-end.vercel.app",
+  clientID: "EQ42PfKvwO5xeOb1bvo0AykAHcUa",
+  baseUrl: "https://api.asgardeo.io/t/germsslaf56",
+  scope: [
+  "openid profile",
+  ]
+};
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>

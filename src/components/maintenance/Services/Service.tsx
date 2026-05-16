@@ -13,9 +13,16 @@ const Service = () => {
     const [isAddServiceModalOpen, setAddServiceModalOpen] = useState(false);
     const [isViewOpen, setIsViewOpen] = useState(false);
     const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
+    // const [selectedVehicle] = useState<any>(null);
     const { hasPermission } = useUserContext();
     const navigate = useNavigate();
-    console.log("Service data initialized",setSelectedVehicle);
+
+    useEffect(() => {
+        if (!hasPermission("maintenance/view_servicing")) {
+            navigate("/germs/");
+        }
+    }, [hasPermission, navigate]);
+
     // Fetch Data on Load
     useEffect(() => {
         fetchServiceData();
@@ -65,41 +72,41 @@ const Service = () => {
         );
     });
 
-    const openCloseServiceModal = async (serviceId: number) => {
-        const result = await Swal.fire({
-            title: "Do you want to close this service?",
-            text: "You won't be able to undo this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "rgb(9, 156, 17)",
-            cancelButtonColor: "#6b7280",
-            confirmButtonText: "Yes, close it!",
-        });
+    // const openCloseServiceModal = async (serviceId: number) => {
+    //     const result = await Swal.fire({
+    //         title: "Do you want to close this service?",
+    //         text: "You won't be able to undo this!",
+    //         icon: "warning",
+    //         showCancelButton: true,
+    //         confirmButtonColor: "rgb(9, 156, 17)",
+    //         cancelButtonColor: "#6b7280",
+    //         confirmButtonText: "Yes, close it!",
+    //     });
 
-        if (result.isConfirmed) {
-            try {
-                await axios.put(`${import.meta.env.VITE_API_BASE_URL}/Servicing/${serviceId}/closeService`);
-                fetchServiceData();
-                Swal.fire({
-                    title: "Closed!",
-                    text: "Service has been closed.",
-                    icon: "success",
-                });
-            } catch (error) {
-                Swal.fire({
-                    title: "Error!",
-                    text: "Something went wrong.",
-                    icon: "error",
-                });
-            }
-        }
-    }
+    //     if (result.isConfirmed) {
+    //         try {
+    //             await axios.put(`${import.meta.env.VITE_API_BASE_URL}/Servicing/${serviceId}/closeService`);
+    //             fetchServiceData();
+    //             Swal.fire({
+    //                 title: "Closed!",
+    //                 text: "Service has been closed.",
+    //                 icon: "success",
+    //             });
+    //         } catch (error) {
+    //             Swal.fire({
+    //                 title: "Error!",
+    //                 text: "Something went wrong.",
+    //                 icon: "error",
+    //             });
+    //         }
+    //     }
+    // }
 
     const goToServiceRules = () => {
         window.location.href = "/germs/maintenance/service-rules";
     };
 
-    if (hasPermission("Maintenance-View Servicing")) {
+    if (hasPermission("maintenance/view_servicing")) {
         return (
             <div className="overflow-x-auto mt-6 border-t pt-8">
 
@@ -117,7 +124,7 @@ const Service = () => {
                         />
 
                         <button
-                            hidden={!hasPermission("Maintenance-Add New Service")}
+                            hidden={!hasPermission("maintenance/add_new_service")}
                             onClick={() => setAddServiceModalOpen(true)}
                             className="bg-blue-600 text-white px-4 py-2 rounded-lg"
                         >
@@ -186,17 +193,29 @@ const Service = () => {
                                                         className="flex justify-between items-center gap-2 py-1"
                                                     >
                                                         <span>{service.serviceName}</span>
-                                                        <button
+                                                        {/* <button
                                                             title="Close Service"
                                                             onClick={() => openCloseServiceModal(service.serviceId)}
                                                         >
                                                             <i className="fa-solid fa-eye"></i>
-                                                        </button>
+                                                        </button> */}
                                                     </div>
                                                 ))
                                             ) : (
                                                 <span className="text-gray-400">No pending</span>
                                             )}
+                                        </td>
+                                        <td>
+                                            
+                                            <button
+                                                title="View Details"
+                                                onClick={() => {
+                                                    setSelectedVehicle(item);
+                                                    setIsViewOpen(true);
+                                                }}
+                                            >
+                                                <i className="fa-solid fa-eye"></i>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))

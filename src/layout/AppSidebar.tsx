@@ -10,6 +10,7 @@ import {
   PageIcon,
   PieChartIcon,
   TableIcon,
+  // UserIcon,
   BoxIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
