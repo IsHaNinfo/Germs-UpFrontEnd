@@ -56,16 +56,10 @@ import { UserProvider } from "./context/UserContext.tsx";
 const config={ 
   signInRedirectURL: "https://germs-up-front-end.vercel.app",
   signOutRedirectURL: "https://germs-up-front-end.vercel.app",
-  clientID: "tRrc9a1uB8wedAsYLUHyJ4fDUtsa",
+  clientID: "EQ42PfKvwO5xeOb1bvo0AykAHcUa",
   baseUrl: "https://api.asgardeo.io/t/germsslaf56",
   scope: [
-    "openid",
-    "groups",
-    "profile",
-    "roles",
-    "dashboard/view_in_sidebar",
-    
-    "induction/view_in_sidebar",
+  "openid profile",
   ]
 };
 
