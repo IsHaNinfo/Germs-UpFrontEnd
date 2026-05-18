@@ -10,6 +10,48 @@ import { AuthProvider } from "@asgardeo/auth-react";
 // import { PermissionProvider } from "./context/PermissionContext.tsx";
 import { UserProvider } from "./context/UserContext.tsx";
 
+
+const config={
+  signInRedirectURL: "https://germs-up-front-end.vercel.app",
+  signOutRedirectURL: "https://germs-up-front-end.vercel.app",
+  clientID: "OuvFXAdkNq0qcvsFAQcHIR2DVFwa",
+  baseUrl: "https://api.asgardeo.io/t/germsslaf",
+  scope: [
+    "openid",
+    "profile",
+    "roles",
+
+    "dashboard/view_in_sidebar",
+    
+    "induction/view_in_sidebar",
+    "induction/view_vehicle_induction",
+    "induction/view_register_to_airforce",
+    "induction/view_allocation",
+
+    "maintenance/view_in_sidebar",
+    "maintenance/view_servicing",
+    "maintenance/view_repairs",
+    "maintenance/view_accident_repairs",
+    "maintenance/view_utilization_of_mtms",
+    "maintenance/add_new_service",
+    "maintenance/edit_service_rule",
+    "maintenance/add_new_service_rule",
+    "maintenance/delete_service_rule",
+    "maintenance/view_service_rule_settings",
+
+    "mt-operations/view_in_sidebar",
+
+    "e658/view_in_sidebar",
+    "e658/view_long_run",
+    "e658/view_short_run",
+    "e658/view_rr",
+
+    "reports/view_in_sidebar",
+
+    "settings/view_in_sidebar",
+  ]
+};
+
 //
 //FOR-GERMS-IS-SERVER
 // const config={
