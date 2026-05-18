@@ -12,8 +12,8 @@ import { UserProvider } from "./context/UserContext.tsx";
 
 // FOR-DEVELOPING
 // const config={
-//   signInRedirectURL: "http://localhost:5173",
-//   signOutRedirectURL: "http://localhost:5173",
+//   signInRedirectURL: "https://germs-up-front-end.vercel.app",
+//   signOutRedirectURL: "https://germs-up-front-end.vercel.app",
 //   clientID: "OuvFXAdkNq0qcvsFAQcHIR2DVFwa",
 //   baseUrl: "https://api.asgardeo.io/t/germsslaf",
 //   scope: [
@@ -103,6 +103,19 @@ import { UserProvider } from "./context/UserContext.tsx";
 //   "openid profile",
 //   ]
 // };
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
